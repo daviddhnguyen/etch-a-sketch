@@ -1,6 +1,6 @@
 const grid = document.querySelector('.grid');
 
-let gridItemsPerColumn = 100;
+let gridItemsPerColumn = 16;
 let totalBoxes = gridItemsPerColumn**2;
 
 let gridWidth = 960;
