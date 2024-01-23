@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .page {
+    display: flex;
+    justify-contents: space-between;
+    margin: 20px 200px;
+    gap: 100px;
+  }
+  
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justy-contents: center;
+    /* margin: 10px 500px 10px 500px; */
+  }
+  
+  .coloredBox {
+    background-color: red;
+  }
+  
+  .btn {
+    padding: 20px;
+  }
