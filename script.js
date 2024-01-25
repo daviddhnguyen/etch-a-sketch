@@ -10,14 +10,26 @@
   - create total # of divs and calculate cells
 */
 
-const DEFAULT_CELL_COUNT = 16
-const DEFAULT_COLOR = 'blue';
+const DEFAULT_CELL_COUNT = 16;
+const DEFAULT_COLOR = 'white';
+const DEFAULT_HIGHLIGHT = 'blue';
 const DEFAULT_WIDTH = 960;
+const MIN_CELL_COUNT = 1;
+const MAX_CELL_COUNT = 64;
 
 let currentCellCount = DEFAULT_CELL_COUNT;
-let currentColor = DEFAULT_COLOR;
+let currentHighLight = DEFAULT_HIGHLIGHT;
 
 // event listeners
+window.addEventListener('DOMContentLoaded', () => {
+  createGrid(DEFAULT_CELL_COUNT);
+});
+
+document.querySelector('.btnResize').addEventListener('click', resizeGrid);
+
+document.querySelector('.btnClear').addEventListener('click',() => {delGrid();
+   createGrid(currentCellCount);
+  });
 
 // create grid defined by # of cells per row and default width
 function createGrid(cellCount) {
@@ -37,67 +49,59 @@ function createGrid(cellCount) {
   grid.style.flexBasis = `${DEFAULT_WIDTH}px`;
 
   const cells = document.querySelectorAll('.cell');
-
+  
   cells.forEach((cell) => {
     cell.style.flex = `1 1 ${cellSize}px`;
     cell.style.width = `${cellSize}px`;
     cell.style.height = `${cellSize}px`;
   });
+  
+  //Add eventlistener to highlight cell on hover
+  hoverHighlight();
 };
 
 // delete current grid
+function delGrid() {
+  const cells = document.querySelectorAll('.cell');
+  
+  cells.forEach((cell) => {
+    cell.remove();
+  });
+};
 
+//resize grid by deleting old and creating new grid based on user input
+function resizeGrid() {
+  //delete grid, take user input, create grid with userinput
+  delGrid();
+  currentCellCount = 
+      prompt(`Enter number between ${MIN_CELL_COUNT} and ${MAX_CELL_COUNT}`);
 
-//add new style class to cell
-
-
-
-//clear new style class from cell
-
-/*
-
-function userSquareInput() {
-  let whileTrue = true;
-
-  while (whileTrue = true) {
-    let itemsPerColumn = prompt('Enter number of squares per side'); 
-    itemsPerColumn = Number(itemsPerColumn);
-    if (typeof itemsPerColumn === 'number' && itemsPerColumn > 0 && itemsPerColumn <= 64) {
-      whileTrue = false;
-      console.log(itemsPerColumn);
-      return itemsPerColumn;
-    } else {
-      alert('Number must be between 1 and 64');
+  while (currentCellCount < MIN_CELL_COUNT || isNaN(currentCellCount) || currentCellCount > MAX_CELL_COUNT) {
+    alert(`Error, number must be between ${MIN_CELL_COUNT} and ${MAX_CELL_COUNT}`);
+    currentCellCount = 
+      prompt(`Enter number between ${MIN_CELL_COUNT} and ${MAX_CELL_COUNT}`);
     }
-  }
+  createGrid(currentCellCount);
+  return currentCellCount; 
 }
 
-//prompt user for grid dimensions and clears board
-const btnResize = document.querySelector('.btnResize');
-
-btnResize.addEventListener('click', () => {
-  createGrid(userSquareInput());
-});
-
-//create colored boxes when mouse hovers
-const boxes = document.querySelectorAll('.box');
-
-boxes.forEach((item) => {
-  item.addEventListener('mouseover', () => {
-    item.className += ' coloredBox';
+//highlight cells by adding new highlight class and applying style
+function highLightCell() {
+  const highLight = document.querySelectorAll('.highLighted');
+  
+  highLight.forEach((cell) => {
+    cell.style.backgroundColor = currentHighLight;
   });
-});
+};
 
-//click button to clear cells
-const btnClear = document.querySelector('.btnClear');
+//highlight cell on mousehover
+function hoverHighlight() {
+  const cells = document.querySelectorAll('.cell');
 
-btnClear.addEventListener('click', () => {
-  boxes.forEach((item) => {
-    item.className -= 'coloredBox';
+  cells.forEach(item => {
+    item.addEventListener('mouseover', () => {
+      item.classList.add('highLighted');
+      highLightCell();
+    });
   });
-});
-*/
-
-window.onload = () => {
-  createGrid(DEFAULT_CELL_COUNT)
 };
